@@ -11,7 +11,7 @@ One line about what the project builds, in your words.
 
 ```bash
 python -m venv .venv && source .venv/bin/activate
-pip install -e ".[dev]"
+pip install -r requirements-dev.txt
 python -m chaoslab analyze data/sample.csv
 ```
 
