@@ -1,0 +1,20 @@
+# Official verification of your deliveries.
+#
+# The only thing you change here is `delivery` when you move on. Everything else is
+# already decided: the same tool you run on your machine (`bitexoft-verify check A1`)
+# runs here pinned and in a clean environment, and THIS result is the one the platform
+# accepts.
+
+name: Bitexoft
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  verify:
+    uses: bitexoft/verify-workflow/.github/workflows/verify.yml@v1
+    with:
+      delivery: A1

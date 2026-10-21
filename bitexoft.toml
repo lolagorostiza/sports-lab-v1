@@ -1,0 +1,18 @@
+# Organise your project however you like; here you declare where you put each thing.
+# Verification reads this file, so it imposes no package names and no paths on you.
+# What is not negotiable is the SHAPE of the boundaries, not what you call them.
+
+[project]
+id = "chaos-sports-lab"
+package = "chaoslab"       # change this to your package name
+
+[layers]
+domain = "chaoslab.domain"
+# Declared as later deliveries ask for them:
+# application = "chaoslab.application"
+# adapters    = "chaoslab.adapters"
+# api         = "chaoslab.api"
+
+[cli]
+module = "chaoslab"        # run as `python -m chaoslab`
+# main = "main.py"         # or a script, if that is your entry point
