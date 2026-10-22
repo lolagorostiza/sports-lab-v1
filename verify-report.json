@@ -1,0 +1,157 @@
+{
+  "schema": "bitexoft.verify.report/v3",
+  "cli_version": "0.2.0",
+  "project": "chaos-sports-lab",
+  "delivery": "A1",
+  "provenance": {
+    "surface": "local",
+    "repo": null,
+    "commit": null,
+    "run_url": null,
+    "generated_at": "2026-10-21T19:00:31Z"
+  },
+  "autonomy": {
+    "help_level": 0,
+    "provided_files": []
+  },
+  "gates": [
+    {
+      "id": "acceptance",
+      "status": "fail",
+      "checks": [
+        {
+          "id": "manifest",
+          "title": "bitexoft.toml declares what is needed",
+          "status": "pass"
+        },
+        {
+          "id": "position",
+          "title": "chaoslab.domain.models:Position exists with the required shape",
+          "status": "fail",
+          "message": "could not import: ModuleNotFoundError: No module named 'chaoslab'"
+        },
+        {
+          "id": "frame",
+          "title": "chaoslab.domain.models:Frame exists with the required shape",
+          "status": "fail",
+          "message": "could not import: ModuleNotFoundError: No module named 'chaoslab'"
+        },
+        {
+          "id": "block_state",
+          "title": "chaoslab.domain.models:BlockState exists with the required shape",
+          "status": "fail",
+          "message": "could not import: ModuleNotFoundError: No module named 'chaoslab'"
+        },
+        {
+          "id": "domain_error",
+          "title": "chaoslab.domain.errors:DomainError exists with the required shape",
+          "status": "fail",
+          "message": "could not import: ModuleNotFoundError: No module named 'chaoslab'"
+        },
+        {
+          "id": "compactness",
+          "title": "chaoslab.domain.analysis:BlockCompactness exists with the required shape",
+          "status": "fail",
+          "message": "could not import: ModuleNotFoundError: No module named 'chaoslab'"
+        },
+        {
+          "id": "position_invariants",
+          "title": "Position refuses coordinates off the pitch",
+          "status": "skip",
+          "message": "symbols not available yet: No module named 'chaoslab'"
+        },
+        {
+          "id": "frame_invariants",
+          "title": "Frame refuses impossible instants",
+          "status": "skip",
+          "message": "symbols not available yet: No module named 'chaoslab'"
+        },
+        {
+          "id": "value_semantics",
+          "title": "Compared by value, hashable and immutable",
+          "status": "skip",
+          "message": "symbols not available yet: No module named 'chaoslab'"
+        },
+        {
+          "id": "geometry",
+          "title": "The centroid and the spread are right",
+          "status": "skip",
+          "message": "cannot build a frame yet: No module named 'chaoslab'"
+        },
+        {
+          "id": "classification",
+          "title": "Classification is monotonic and reaches all three states",
+          "status": "skip",
+          "message": "symbols not available yet: No module named 'chaoslab'"
+        },
+        {
+          "id": "thresholds",
+          "title": "BlockCompactness refuses thresholds that make no sense",
+          "status": "skip",
+          "message": "symbol not available yet: No module named 'chaoslab'"
+        },
+        {
+          "id": "cli_analyze",
+          "title": "The program analyses the sample file",
+          "status": "fail",
+          "message": "C:\\Users\\Tere\\AppData\\Local\\Programs\\Python\\Python310\\python.exe: No module named chaoslab"
+        },
+        {
+          "id": "cli_bad_input",
+          "title": "With impossible data it fails cleanly, without a traceback",
+          "status": "fail",
+          "message": "it exited with 1; the contract asks for 2 so a script can tell bad data from a crash"
+        },
+        {
+          "id": "determinism",
+          "title": "Same input, same output",
+          "status": "skip",
+          "message": "cannot be checked: the program does not exit cleanly"
+        }
+      ]
+    },
+    {
+      "id": "design",
+      "status": "fail",
+      "checks": [
+        {
+          "id": "boundary",
+          "title": "The domain has no input or output",
+          "status": "fail",
+          "message": "I cannot find the domain folder declared in bitexoft.toml"
+        },
+        {
+          "id": "tests",
+          "title": "Your test suite passes",
+          "status": "fail",
+          "message": "no tests were collected"
+        },
+        {
+          "id": "invariant_tests",
+          "title": "At least one test builds an impossible object",
+          "status": "fail",
+          "message": "I cannot find any test files"
+        }
+      ]
+    },
+    {
+      "id": "evidence",
+      "status": "skip",
+      "checks": [
+        {
+          "id": "written",
+          "title": "Your written explanation",
+          "status": "skip",
+          "message": "this gate is yours to close on the platform: write the why and compare it against the rubric"
+        }
+      ]
+    }
+  ],
+  "summary": {
+    "status": "fail",
+    "passed": 1,
+    "failed": 10,
+    "skipped": 8,
+    "total": 19
+  }
+}
