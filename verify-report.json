@@ -8,7 +8,7 @@
     "repo": null,
     "commit": null,
     "run_url": null,
-    "generated_at": "2026-10-21T19:00:31Z"
+    "generated_at": "2026-10-22T18:48:06Z"
   },
   "autonomy": {
     "help_level": 0,
@@ -94,7 +94,7 @@
           "id": "cli_analyze",
           "title": "The program analyses the sample file",
           "status": "fail",
-          "message": "C:\\Users\\Tere\\AppData\\Local\\Programs\\Python\\Python310\\python.exe: No module named chaoslab"
+          "message": "G:\\_HUGO\\_myCode\\user-sports-lab-v1\\sports-lab-v1\\.venv\\Scripts\\python.exe: No module named chaoslab"
         },
         {
           "id": "cli_bad_input",
