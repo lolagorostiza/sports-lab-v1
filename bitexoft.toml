@@ -4,15 +4,15 @@
 
 [project]
 id = "chaos-sports-lab"
-package = "chaoslab"       # change this to your package name
+package = "sports_lab_v1"       # change this to your package name
 
 [layers]
-domain = "chaoslab.domain"
+domain = "sports_lab_v1.domain"
 # Declared as later deliveries ask for them:
 # application = "chaoslab.application"
 # adapters    = "chaoslab.adapters"
 # api         = "chaoslab.api"
 
 [cli]
-module = "chaoslab"        # run as `python -m chaoslab`
+module = "sports_lab_v1"        # run as `python -m chaoslab`
 # main = "main.py"         # or a script, if that is your entry point
