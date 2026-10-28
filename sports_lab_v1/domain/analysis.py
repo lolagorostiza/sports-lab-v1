@@ -1,5 +1,3 @@
-from asyncio.windows_events import NULL
-
 from sports_lab_v1.domain.models import Frame, BlockState
 
 class BlockCompactness:
