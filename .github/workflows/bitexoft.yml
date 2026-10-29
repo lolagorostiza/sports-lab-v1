@@ -17,4 +17,4 @@ jobs:
   verify:
     uses: bitexoft/verify-workflow/.github/workflows/verify.yml@v1
     with:
-      delivery: A1
+      delivery: A2
