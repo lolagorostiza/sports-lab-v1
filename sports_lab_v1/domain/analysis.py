@@ -1,4 +1,5 @@
 from typing import Protocol
+from sports_lab_v1.domain.errors import DomainError
 from sports_lab_v1.domain.models import Frame, BlockState
 
 class BlockCompactness:
@@ -42,6 +43,8 @@ class FurthestPolicy():
 
 class CompositePolicy():
     def __init__(self, policies:list[ClassificationPolicy]) -> None:
+        if policies == []:
+            raise DomainError()
         self.policies = policies
     
     def classify(self, frame:Frame) -> BlockState:
