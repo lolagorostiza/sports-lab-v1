@@ -236,16 +236,17 @@ def test_composite_worst_verdict_wins(verdicts, expected, anyFrame1):
     assert policy.classify(anyFrame1) == expected
 
 def test_order_never_matters(anyFrame1):
-    verdicts = [BlockState.COMPACT, BlockState.STRETCHED]
+    verdicts1 = [BlockState.COMPACT, BlockState.STRETCHED]
+    verdicts2 = [BlockState.STRETCHED, BlockState.COMPACT]
+
     expected = BlockState.STRETCHED
     
-    compactness = BlockCompactness(stretched_above=10.0, broken_above=15.0)
-    furthest = FurthestPolicy(stretched_above=40.0, broken_above=50.0)
-    compositePolicy1 = CompositePolicy([compactness, furthest])
-    compositePolicy2 = CompositePolicy([furthest, compactness])
+    policy1 = CompositePolicy([StubPolicy(v) for v in verdicts1])
+    policy2 = CompositePolicy([StubPolicy(v) for v in verdicts2])
     
-    assert compositePolicy1.classify(anyFrame1) == expected
-    assert compositePolicy2.classify(anyFrame1) == expected
+    assert policy1.classify(anyFrame1) == expected
+    assert policy2.classify(anyFrame1) == expected
+
 
 def test_empty_is_refused():
     with pytest.raises(DomainError):
