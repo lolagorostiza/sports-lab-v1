@@ -5,7 +5,7 @@ from sports_lab_v1.domain.models import BlockState, Frame, Position
 from tests.test_domain import frame
 from sports_lab_v1.utils import read_lines
 from sports_lab_v1.parsing import parse_row
-from sports_lab_v1.domain.analysis import BlockCompactness, FurthestPolicy
+from sports_lab_v1.domain.analysis import BlockCompactness, FurthestPolicy, CompositePolicy
 
 
 @pytest.fixture
@@ -166,8 +166,70 @@ def test_results_agree_where_they_should():
         "40.0,35.0", "41.0,35.0", "42.0,35.0", "43.0,35.0",
         "40.0,36.0", "41.0,36.0", "42.0,36.0", "43.0,36.0",
     ])
-    blockStates1 = [BlockCompactness().classify(parse_row(line))]
+    blockStates1 = BlockCompactness().classify(parse_row(line))
     
-    blockStates2 = [FurthestPolicy().classify(parse_row(line))]
+    blockStates2 = FurthestPolicy().classify(parse_row(line))
     
     assert blockStates1 == blockStates2
+
+def test_composite_worst_verdict_wins_1():
+    compactness = BlockCompactness(stretched_above=10.0, broken_above=15.0)
+    furthest = FurthestPolicy(stretched_above=40.0, broken_above=50.0)
+    compositePolicy = CompositePolicy([compactness,furthest])
+    
+    COMPACT_STRETCHED_LINE = "0.0," + ",".join([
+        "62.0,34.0", "42.0,34.0", "52.0,44.0", "52.0,24.0",
+        "58.0,42.0", "46.0,26.0", "46.0,42.0", "58.0,26.0",
+        "60.0,40.0", "44.0,28.0",
+        "77.0,34.0", "27.0,34.0",
+    ])
+    
+    assert BlockState.STRETCHED == compositePolicy.classify(parse_row(COMPACT_STRETCHED_LINE))
+
+def test_composite_worst_verdict_wins_2():
+    compactness = BlockCompactness(stretched_above=10.0, broken_above=15.0)
+    furthest = FurthestPolicy(stretched_above=40.0, broken_above=50.0)
+    compositePolicy = CompositePolicy([compactness,furthest])
+    
+    STRETCHED_BROKEN_LINE = "0.0," + ",".join([
+        "72.0,34.0", "32.0,34.0", "52.0,54.0", "52.0,14.0",
+        "64.0,50.0", "40.0,18.0", "40.0,50.0", "64.0,18.0",
+        "68.0,46.0", "36.0,22.0",
+        "92.0,34.0", "12.0,34.0",
+    ])
+    
+    assert BlockState.BROKEN == compositePolicy.classify(parse_row(STRETCHED_BROKEN_LINE))
+
+def test_composite_worst_verdict_wins_3():
+    compactness = BlockCompactness(stretched_above=10.0, broken_above=15.0)
+    furthest = FurthestPolicy(stretched_above=40.0, broken_above=50.0)
+    compositePolicy = CompositePolicy([compactness,furthest])
+    
+    COMPACT_BROKEN_LINE = "0.0," + ",".join([
+    "72.0,34.0", "32.0,34.0", "52.0,54.0", "52.0,14.0",
+    "64.0,50.0", "40.0,18.0", "40.0,50.0", "64.0,18.0",
+    "68.0,46.0", "36.0,22.0", "68.0,22.0", "36.0,46.0",
+])
+    
+    assert BlockState.BROKEN == compositePolicy.classify(parse_row(COMPACT_BROKEN_LINE))
+
+class StubPolicy:
+    def __init__(self, verdict: BlockState) -> None:
+        self._verdict = verdict
+
+    def classify(self, frame: Frame) -> BlockState:
+        return self._verdict
+
+
+@pytest.mark.parametrize(
+    "verdicts, expected",
+    [
+        ([BlockState.COMPACT, BlockState.STRETCHED], BlockState.STRETCHED),
+        ([BlockState.STRETCHED, BlockState.BROKEN], BlockState.BROKEN),
+        ([BlockState.BROKEN, BlockState.COMPACT], BlockState.BROKEN),
+    ],
+)
+def test_composite_worst_verdict_wins(verdicts, expected, anyFrame1):
+    policy = CompositePolicy([StubPolicy(v) for v in verdicts])
+
+    assert policy.classify(anyFrame1) == expected

@@ -40,6 +40,22 @@ class FurthestPolicy():
             return BlockState.STRETCHED
         return BlockState.COMPACT
 
+class CompositePolicy():
+    def __init__(self, policies:list[ClassificationPolicy]) -> None:
+        self.policies = policies
+    
+    def classify(self, frame:Frame) -> BlockState:
+        blockStates = [policy.classify(frame) for policy in self.policies]
+        
+        SEVERITY = {
+            BlockState.COMPACT: 0,
+            BlockState.STRETCHED: 1,
+            BlockState.BROKEN: 2,
+        }
+        return max(blockStates, key=SEVERITY.__getitem__)
+        
+    
 def classify_match(frames:tuple[Frame,...], 
                    policy:ClassificationPolicy) -> list[BlockState]:
     return [policy.classify(frame) for frame in frames]
+
