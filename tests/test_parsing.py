@@ -77,3 +77,25 @@ def test_analyze_prints_table_and_summary():
     assert "COMPACT" in result.stdout
     assert "STRETCHED" in result.stdout
     assert "BROKEN" in result.stdout
+
+def test_compare_cli():
+    result = subprocess.run(
+        [
+            sys.executable,
+            "-m",
+            "sports_lab_v1",
+            "compare",
+            "data/a2_isolated_sample.csv",
+        ],
+        capture_output=True,
+        text=True,
+    )
+
+    assert result.returncode == 0
+    rows = result.stdout.splitlines()[1:] 
+    
+    assert len(rows) > 0
+    for row in rows:
+        _, compactness, furthest = row.split()
+        assert compactness != furthest
+
