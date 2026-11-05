@@ -3,6 +3,7 @@ from math import sqrt
 from statistics import fmean
 from turtle import distance
 from enum import Enum
+import math
 
 from sports_lab_v1.domain.errors import InvalidFrame, InvalidPosition
 
@@ -43,6 +44,10 @@ class Frame:
     
     def spread(self) -> float:
       return fmean(p.distance_to(self.centroid) for p in self.players)
+
+    @property
+    def furthest(self) -> float:
+      return max(p.distance_to(self.centroid) for p in self.players)
 
 class BlockState(Enum):
     COMPACT = "compact"

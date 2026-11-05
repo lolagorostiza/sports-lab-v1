@@ -5,6 +5,7 @@ from collections.abc import Iterator
 from sports_lab_v1.parsing import parse_row
 from sports_lab_v1.domain.analysis import BlockCompactness
 from sports_lab_v1.domain.errors import DomainError
+from sports_lab_v1.utils import read_lines
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -20,18 +21,6 @@ def main(argv: list[str] | None = None) -> int:
             print(f"error: {error}", file=sys.stderr)
             return 2
     return 0
-
-def read_lines(path:str) -> Iterator[str]:
-    try:
-        with open(path, encoding= "utf-8") as file:
-            next(file, None)  # Saltar la cabecera
-            for line in file:
-                if line.strip():
-                    yield line
-    except OSError as error:
-        raise DomainError(
-            f"No se puede leer el fichero '{path}': {error}"
-        ) from error
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="sports_lab_v1")
